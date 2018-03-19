@@ -1,0 +1,127 @@
+body, html {
+  min-width: 550px;
+  height: 100%;
+  display: grid;
+}
+
+.container {
+  margin: auto;
+  width: 500px;
+  height: 500px;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: space-evenly;
+}
+
+#player-label {
+  font-size: 1.5em;
+  grid-column: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(2, 170px);
+  grid-template-rows: auto;
+  justify-content: space-evenly;
+  
+  
+}
+
+#go-player-1, #go-player-2 {
+  padding: 5px;
+  text-align: center;
+  /* border: 1px solid red; */
+}
+
+#go-player-1 {
+  color: white;
+  background-color: #00CDCB;
+}
+
+#go-player-2 {
+  color: white;
+  background-color: #D1595E;
+}
+
+
+#board-label {
+  margin: auto;
+  padding-top: 5px;
+  padding-left: 16.375px;
+  padding-right: 0.1875px;
+  padding-bottom: 10px;
+  width: 450px;
+  height: 450px;
+  grid-auto-rows: 20px;
+  border: 1px solid black;
+  background-color: #F6B382;
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: 20px;
+  grid-gap: 1.5em;
+  justify-content: space-evenly;
+ 
+}
+
+#player-1, #player-2, #reset {
+  margin-top: 0px;
+  color: white;
+  grid-auto-rows: auto;
+  /* border: 1px solid black; */
+}
+
+#player-1 {
+  justify-self: end;
+  
+}
+
+#player-2 {
+  justify-self: start;
+}
+
+#reset {
+  justify-self: end;
+}
+
+#board {
+  /* margin: auto; */
+  padding: 14.5px;
+  grid-column: 1 / span 3;
+background: radial-gradient(ellipse at center, rgb(29, 83, 61) 0%, rgba(28,79,59,1) 17%, rgba(18,35,32,1) 100%);
+  /* background-color: #142E26; */
+  width: 351px;
+  height: 351px;
+  display: grid;
+  grid-template-columns: repeat(3, 117px);
+  grid-template-rows: 117px;
+  justify-content: space-evenly;
+  
+  /* border: 3px solid blue; */
+
+  
+  
+}
+
+
+
+.square {
+  /* padding: 8.5px; */
+  color: #A0A7A5;
+  font-size: 6em;
+  text-align: center;
+  border: 1px solid #A0A7A5;
+}
+
+.top-row {
+  border-top: 0px;
+}
+
+.right-col {
+  border-right: 0px;
+}
+
+.bottom-row {
+  border-bottom: 0px;
+}
+
+.left-col {
+  border-left: 0px;
+}
+
