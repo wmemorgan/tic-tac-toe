@@ -52,6 +52,7 @@ const chooseOption2 = () => {
 }
 
 const goBack = () => {
+  gameMenu2 = false;
   question.innerHTML = defaultQuestion;
   option1.innerHTML = defaultOption1;
   option2.innerHTML = defaultOption2;
