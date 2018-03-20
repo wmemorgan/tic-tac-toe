@@ -8,28 +8,35 @@
 </head>
 <body>
   <div class="container">
-  <div id="player-label">
-    <div id="go-player-1">go player 1!</div>
-    <div id="go-player-2">go player 2!</div>
-  </div>
-  <div id="board-label">
-          <div id="player-1">0<br>
-            player 1</div>
-          <div id="player-2">0<br>
-            player 2</div>
-          <div id="reset">reset all</div>
-  <div id="board">
-    <div class="square top-row left-col">O</div>
-    <div class="square top-row center-col">X</div>
-    <div class="square top-row right-col">O</div>
-    <div class="square left-col">X</div>
-    <div class="square center-col">X</div>
-    <div class="square right-col">O</div>
-    <div class="square bottom-row left-col">O</div>
-    <div class="square bottom-row center-col">X</div>
-    <div class="square bottom-row right-col">O</div>
-  </div>
-  </div>
+    <div id="player-label">
+      <div id="go-player-1">go player 1!</div>
+      <div id="go-player-2">go player 2!</div>
+    </div>
+    <div id="board-label">
+      <div id="player-1">0<br>
+        player 1</div>
+      <div id="player-2">0<br>
+        player 2</div>
+      <div id="reset">reset all</div>
+      <div id="board">
+        <div id="game-menu">
+          <div class="option" id="question"><p>How do you want to play?</p></div>
+          <div class="option" id="option-1">One Player</div>
+          <div class="option" id="option-2" >Two Player</div>
+          <div class="option" id="back-btn">back</div>
+
+        </div>
+        <div class="square square-hidden top-row left-col">O</div>
+        <div class="square square-hidden top-row center-col">X</div>
+        <div class="square square-hidden top-row right-col">O</div>
+        <div class="square square-hidden left-col">X</div>
+        <div class="square square-hidden center-col">X</div>
+        <div class="square square-hidden right-col">O</div>
+        <div class="square square-hidden bottom-row left-col">O</div>
+        <div class="square square-hidden bottom-row center-col">X</div>
+        <div class="square square-hidden bottom-row right-col">O</div>
+      </div>
+    </div>
   </div>
   <script src="script.js"></script>
 </body>

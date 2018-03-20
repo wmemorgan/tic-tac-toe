@@ -11,6 +11,7 @@ body, html {
   display: grid;
   grid-template-columns: 1fr;
   justify-content: space-evenly;
+  
 }
 
 #player-label {
@@ -20,8 +21,7 @@ body, html {
   grid-template-columns: repeat(2, 170px);
   grid-template-rows: auto;
   justify-content: space-evenly;
-  
-  
+  visibility: hidden;
 }
 
 #go-player-1, #go-player-2 {
@@ -42,34 +42,34 @@ body, html {
 
 
 #board-label {
+  width: 450px;
+  height: 450px;
   margin: auto;
   padding-top: 5px;
   padding-left: 16.375px;
   padding-right: 0.1875px;
   padding-bottom: 10px;
-  width: 450px;
-  height: 450px;
-  grid-auto-rows: 20px;
   border: 1px solid black;
+  border-radius: 15px;
   background-color: #F6B382;
+  grid-auto-rows: 20px;
   display: grid;
   grid-template-columns: repeat(3, 100px);
   grid-template-rows: 20px;
   grid-gap: 1.5em;
   justify-content: space-evenly;
- 
 }
 
 #player-1, #player-2, #reset {
   margin-top: 0px;
   color: white;
   grid-auto-rows: auto;
+  visibility: hidden;
   /* border: 1px solid black; */
 }
 
 #player-1 {
   justify-self: end;
-  
 }
 
 #player-2 {
@@ -80,11 +80,53 @@ body, html {
   justify-self: end;
 }
 
+#game-menu {
+  margin: auto;
+  color: #A0A7A5;
+  text-align: center;
+  width: 300px;
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);  */
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+#question {
+  width: 200px;
+  color: white;
+  font-size: 2em;
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+
+.option {
+  padding-top: 50px;
+  border: 1px solid white;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+#option-1:hover, #option-2:hover {
+  border: 1px dashed white;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+#back-btn {
+  grid-column: 1 / -1;
+  visibility: hidden; 
+}
+
 #board {
   /* margin: auto; */
   padding: 14.5px;
   grid-column: 1 / span 3;
-background: radial-gradient(ellipse at center, rgb(29, 83, 61) 0%, rgba(28,79,59,1) 17%, rgba(18,35,32,1) 100%);
+  background: radial-gradient(ellipse at center, 
+  rgb(29, 83, 61) 0%, rgba(28,79,59,1) 17%, rgba(18,35,32,1) 100%);
   /* background-color: #142E26; */
   width: 351px;
   height: 351px;
@@ -92,14 +134,17 @@ background: radial-gradient(ellipse at center, rgb(29, 83, 61) 0%, rgba(28,79,59
   grid-template-columns: repeat(3, 117px);
   grid-template-rows: 117px;
   justify-content: space-evenly;
-  
   /* border: 3px solid blue; */
-
-  
-  
 }
 
-
+.square-hidden {
+  /* padding: 8.5px; */
+  color: #A0A7A5;
+  font-size: 6em;
+  text-align: center;
+  border: 1px solid #A0A7A5;
+  display: none;
+}
 
 .square {
   /* padding: 8.5px; */
