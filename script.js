@@ -10,6 +10,7 @@ let gameMenu = document.getElementById("game-menu"),
     square = document.getElementsByClassName("square"),
     backButton = document.getElementById("back-btn"),
     choice,
+    markerCount = 0,
     player1Banner = document.getElementById("go-player-1"),
     player2Banner = document.getElementById("go-player-2"),
     player1 = document.getElementById("player-1"),
@@ -17,6 +18,7 @@ let gameMenu = document.getElementById("game-menu"),
     defaultPlayer2 = player2,
     player1Marker,
     player2Marker,
+    activeMarker,
     activePlayer,
     playerCount,
     gameResetBtn = document.getElementById("game-reset");
@@ -60,6 +62,8 @@ const goBack = () => {
   player2 = defaultPlayer2;
   gameMenu2 = false;
   playerCount = undefined;
+  markerCount = 0;
+  gameMenu.style.display = "grid";
   question.innerHTML = defaultQuestion;
   option1.innerHTML = defaultOption1;
   option2.innerHTML = defaultOption2;
@@ -85,12 +89,11 @@ const showBoard = (object) => {
 }
 
 const hideBoard = (object) => {
-  player1Banner.style.visibility = 'hidden';
-  player2Banner.style.visibility = 'hidden';
-  gameMenu.style.display = "grid";
   player1.style.visibility = 'hidden';
   player2.style.visibility = 'hidden';
   gameResetBtn.style.visibility = 'hidden';
+  player1Banner.style.visibility = 'hidden';
+  player2Banner.style.visibility = 'hidden';
   //Hide squares
   for (i = 0; i < object.length; i++) {
     object[i].classList.add("square-hidden");
@@ -103,20 +106,24 @@ const hideBoard = (object) => {
 const choosePlayer = () => {
    choice = Math.floor((Math.random() * 2) + 1)
     if (choice === 1) {
-      activePlayer = player1Marker;
+      activeMarker = player1Marker;
+      activePlayer = "Player 1";
     } else {
-      activePlayer = player2Marker;
+      activeMarker = player2Marker;
+      activePlayer = "Player 2";
     }
     rotateBanner();
 }
 
 const rotatePlayer = () => {
   if (choice === 1) {
-    activePlayer = player2Marker;
     choice = 2;
+    activeMarker = player2Marker;
+    activePlayer = "Player 2";
   } else {
-    activePlayer = player1Marker;
     choice = 1;
+    activeMarker = player1Marker;
+    activePlayer = "Player 1";
   }
   rotateBanner();
 }
@@ -137,14 +144,42 @@ const playerMarker = (i) => {
       console.log('The square has been already been selected.');
       return false;
     } else {
-      square[i].innerHTML = activePlayer;
-      rotatePlayer();
-
+      square[i].innerHTML = activeMarker;
+      markerCount++;
+      winCheck(activeMarker);
     }
+
   }
 }
 
+const winnerAlert = (mark) => {
+  console.log("The winner is:", activePlayer);
+  hideBoard(square);
+  return true;
+}  
+
 const winCheck = (mark) => {
+  if (markerCount < 3) {
+    console.log("Not enough squares marked.");
+    rotatePlayer();
+    return false;
+  } else {
+    console.log("Checking winner...", mark);
+    if ((square[0].innerHTML === mark && square[1].innerHTML === mark && square[2].innerHTML === mark) || // across the top
+        (square[3].innerHTML === mark && square[4].innerHTML === mark && square[5].innerHTML === mark) || // across the middle
+        (square[6].innerHTML === mark && square[7].innerHTML === mark && square[8].innerHTML === mark) || // across the bottom
+        (square[0].innerHTML === mark && square[3].innerHTML === mark && square[6].innerHTML === mark) || // down the left side
+        (square[1].innerHTML === mark && square[4].innerHTML === mark && square[7].innerHTML === mark) || // down the middle
+        (square[2].innerHTML === mark && square[5].innerHTML === mark && square[8].innerHTML === mark) || // down the right side
+        (square[0].innerHTML === mark && square[4].innerHTML === mark && square[8].innerHTML === mark) || // diagonal
+        (square[2].innerHTML === mark && square[4].innerHTML === mark && square[6].innerHTML === mark)) {// diagonal
+          console.log("Winner!");
+          winnerAlert(mark);
+    } else {
+      rotatePlayer();
+    }
+  }
+
 
   
 }
