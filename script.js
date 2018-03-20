@@ -94,7 +94,9 @@ const hideBoard = (object) => {
   //Hide squares
   for (i = 0; i < object.length; i++) {
     object[i].classList.add("square-hidden");
-    object[i].innerHTML = '';
+    if (object[i].hasChildNodes()) {
+      object[i].removeChild(square[i].firstChild);
+    }
   }
 }
 
@@ -142,7 +144,8 @@ const playerMarker = (i) => {
   }
 }
 
-const gamePlay = () => {
+const winCheck = (mark) => {
+
   
 }
 
