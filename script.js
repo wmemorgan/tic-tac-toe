@@ -11,13 +11,16 @@ let gameMenu = document.getElementById("game-menu"),
     backButton = document.getElementById("back-btn"),
     choice,
     player1 = document.getElementById("player-1"),
-    player2 = document.getElementById("player-1"),
+    player2 = document.getElementById("player-2"),
+    defaultPlayer2 = player2,
     player1Marker,
     player2Marker,
     gameResetBtn = document.getElementById("game-reset");
 
 const chooseOption1 = () => {
+  
   if(gameMenu2) {
+    player2.innerHTML = "0" + '<br>' + "computer";
     player1Marker = 'X';
     console.log("Player 1 is:", player1Marker);
     player2Marker = 'O';
@@ -51,6 +54,7 @@ const chooseOption2 = () => {
 }
 
 const goBack = () => {
+  player2.innerHTML = "0" + '<br>' + "player 2";
   gameMenu2 = false;
   question.innerHTML = defaultQuestion;
   option1.innerHTML = defaultOption1;
@@ -66,7 +70,8 @@ const showBoard = (object) => {
   gameResetBtn.style.visibility = 'visible';
   for (i=0; i < object.length; i++) {
     object[i].classList.remove("square-hidden");
-    object[i].innerHTML = i+1;
+    object[i].addEventListener("click", playerMarker(i));
+    // object[i].innerHTML = i+1;
   }
 }
 
@@ -77,8 +82,16 @@ const hideBoard = (object) => {
   gameResetBtn.style.visibility = 'hidden';
   for (i = 0; i < object.length; i++) {
     object[i].classList.add("square-hidden");
-    // object[i].innerHTML = i + 1;
+    object[i].innerHTML = '';
   }
+}
+
+const playerMarker = (i) => {
+  // return console.log(i, player1Marker);
+  return () => {
+    square[i].innerHTML = player1Marker;
+  }
+  
 }
 
 option1.addEventListener("click", chooseOption1);
