@@ -1,3 +1,4 @@
+// Declare global variables
 let gameMenu = document.getElementById("game-menu"),
     gameMenu2 = false,
     question = document.getElementById("question"),
@@ -8,22 +9,45 @@ let gameMenu = document.getElementById("game-menu"),
     defaultOption2 = option2.innerHTML,
     square = document.getElementsByClassName("square"),
     backButton = document.getElementById("back-btn"),
-    choice;
+    choice,
+    player1,
+    player2,
+    player1Marker,
+    player2Marker;
 
 const chooseOption1 = () => {
-  question.innerHTML = 'Would you like to be X or O?'
-  option1.innerHTML = 'X'
-  option2.innerHTML = 'O'
-  backButton.style.visibility = 'visible';
-  gameMenu2 = true;
+  if(gameMenu2) {
+    player1Marker = 'X';
+    console.log("Player 1 is:", player1Marker);
+    player2Marker = 'O';
+    console.log("Player 2 is:", player2Marker);
+    gameMenu.style.display = "none";
+    square.style.display
+  } else {
+    question.innerHTML = 'Would you like to be X or O?'
+    option1.innerHTML = 'X'
+    option2.innerHTML = 'O'
+    backButton.style.visibility = 'visible';
+    gameMenu2 = true;
+  }
+
 }
 
 const chooseOption2 = () => {
-  question.innerHTML = 'Player 1: Would you like to be X or O?'
-  option1.innerHTML = 'X'
-  option2.innerHTML = 'O'
-  backButton.style.visibility = 'visible';
-  gameMenu2 = true;
+  if(gameMenu2) {
+    player1Marker = 'O';
+    console.log("Player 1 is:", player1Marker);
+    player2Marker = 'X';
+    console.log("Player 2 is:", player2Marker);
+    gameMenu.style.display = "none";
+  } else {
+    question.innerHTML = 'Player 1: Would you like to be X or O?'
+    option1.innerHTML = 'X'
+    option2.innerHTML = 'O'
+    backButton.style.visibility = 'visible';
+    gameMenu2 = true;
+  }
+
 }
 
 const goBack = () => {
@@ -31,6 +55,11 @@ const goBack = () => {
   option1.innerHTML = defaultOption1;
   option2.innerHTML = defaultOption2;
   backButton.style.visibility = 'hidden'; 
+}
+
+const selectPlayerInput = (selection) => {
+
+
 }
 
 option1.addEventListener("click", chooseOption1);
