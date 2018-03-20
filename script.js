@@ -1,4 +1,5 @@
-let gameOptions = document.getElementById("game-options"),
+let gameMenu = document.getElementById("game-menu"),
+    gameMenu2 = false,
     question = document.getElementById("question"),
     defaultQuestion = question.innerHTML,
     option1 = document.getElementById("option-1"),
@@ -14,6 +15,7 @@ const chooseOption1 = () => {
   option1.innerHTML = 'X'
   option2.innerHTML = 'O'
   backButton.style.visibility = 'visible';
+  gameMenu2 = true;
 }
 
 const chooseOption2 = () => {
@@ -21,6 +23,7 @@ const chooseOption2 = () => {
   option1.innerHTML = 'X'
   option2.innerHTML = 'O'
   backButton.style.visibility = 'visible';
+  gameMenu2 = true;
 }
 
 const goBack = () => {
