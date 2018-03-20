@@ -22,7 +22,7 @@ const chooseOption1 = () => {
     player2Marker = 'O';
     console.log("Player 2 is:", player2Marker);
     gameMenu.style.display = "none";
-    square.style.display
+    showBoard(square);
   } else {
     question.innerHTML = 'Would you like to be X or O?'
     option1.innerHTML = 'X'
@@ -40,6 +40,7 @@ const chooseOption2 = () => {
     player2Marker = 'X';
     console.log("Player 2 is:", player2Marker);
     gameMenu.style.display = "none";
+    showBoard(square);
   } else {
     question.innerHTML = 'Player 1: Would you like to be X or O?'
     option1.innerHTML = 'X'
@@ -57,9 +58,11 @@ const goBack = () => {
   backButton.style.visibility = 'hidden'; 
 }
 
-const selectPlayerInput = (selection) => {
-
-
+const showBoard = (object) => {
+  for (i=0; i < object.length; i++) {
+    object[i].classList.remove("square-hidden");
+    object[i].innerHTML = i+1;
+  }
 }
 
 option1.addEventListener("click", chooseOption1);

@@ -137,13 +137,21 @@ body, html {
   /* border: 3px solid blue; */
 }
 
-.square {
+.square-hidden {
   /* padding: 8.5px; */
   color: #A0A7A5;
   font-size: 6em;
   text-align: center;
   border: 1px solid #A0A7A5;
   display: none;
+}
+
+.square {
+  /* padding: 8.5px; */
+  color: #A0A7A5;
+  font-size: 6em;
+  text-align: center;
+  border: 1px solid #A0A7A5;
 }
 
 .top-row {
