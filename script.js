@@ -10,10 +10,11 @@ let gameMenu = document.getElementById("game-menu"),
     square = document.getElementsByClassName("square"),
     backButton = document.getElementById("back-btn"),
     choice,
-    player1,
-    player2,
+    player1 = document.getElementById("player-1"),
+    player2 = document.getElementById("player-1"),
     player1Marker,
-    player2Marker;
+    player2Marker,
+    gameResetBtn = document.getElementById("game-reset");
 
 const chooseOption1 = () => {
   if(gameMenu2) {
@@ -60,6 +61,9 @@ const goBack = () => {
 }
 
 const showBoard = (object) => {
+  player1.style.visibility = 'visible';
+  player2.style.visibility = 'visible';
+  gameResetBtn.style.visibility = 'visible';
   for (i=0; i < object.length; i++) {
     object[i].classList.remove("square-hidden");
     object[i].innerHTML = i+1;
