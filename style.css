@@ -11,7 +11,6 @@ body, html {
   display: grid;
   grid-template-columns: 1fr;
   justify-content: space-evenly;
-  
 }
 
 #player-label {
@@ -21,7 +20,6 @@ body, html {
   grid-template-columns: repeat(2, 170px);
   grid-template-rows: auto;
   justify-content: space-evenly;
-  visibility: hidden;
 }
 
 #go-player-1, #go-player-2 {
@@ -33,11 +31,13 @@ body, html {
 #go-player-1 {
   color: white;
   background-color: #00CDCB;
+  visibility: hidden;
 }
 
 #go-player-2 {
   color: white;
   background-color: #D1595E;
+  visibility: hidden;
 }
 
 
