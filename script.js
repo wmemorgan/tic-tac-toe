@@ -15,10 +15,10 @@ let gameMenu = document.getElementById("game-menu"),
     defaultPlayer2 = player2,
     player1Marker,
     player2Marker,
+    playerCount,
     gameResetBtn = document.getElementById("game-reset");
 
 const chooseOption1 = () => {
-  
   if(gameMenu2) {
     player2.innerHTML = "0" + '<br>' + "computer";
     player1Marker = 'X';
@@ -32,8 +32,8 @@ const chooseOption1 = () => {
     option2.innerHTML = 'O'
     backButton.style.visibility = 'visible';
     gameMenu2 = true;
+    playerCount = 1;
   }
-
 }
 
 const chooseOption2 = () => {
@@ -49,6 +49,7 @@ const chooseOption2 = () => {
     option2.innerHTML = 'O'
     backButton.style.visibility = 'visible';
     gameMenu2 = true;
+    playerCount = 2;
   }
 
 }
@@ -56,6 +57,7 @@ const chooseOption2 = () => {
 const goBack = () => {
   player2.innerHTML = "0" + '<br>' + "player 2";
   gameMenu2 = false;
+  playerCount = undefined;
   question.innerHTML = defaultQuestion;
   option1.innerHTML = defaultOption1;
   option2.innerHTML = defaultOption2;
