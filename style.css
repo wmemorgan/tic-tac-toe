@@ -62,7 +62,7 @@ body, html {
 
 #player-1, #player-2, #game-reset {
   margin-top: 0px;
-  color: white;
+  color: #875D4D;
   grid-auto-rows: auto;
   visibility: hidden;
   /* border: 1px solid black; */
@@ -73,11 +73,21 @@ body, html {
 }
 
 #player-2 {
+  
   justify-self: start;
 }
 
-#reset {
+#game-reset {
   justify-self: end;
+  border: 1px solid white;
+}
+
+#game-reset:hover {
+  padding: 2px;
+  border: 2px dashed #875D4D;
+  border-radius: 25px;
+  cursor: pointer; 
+
 }
 
 #game-menu {
@@ -118,7 +128,7 @@ body, html {
 
 #back-btn {
   grid-column: 1 / -1;
-  visibility: hidden; 
+  visibility: hidden;
 }
 
 #board {
@@ -132,22 +142,23 @@ body, html {
   height: 351px;
   display: grid;
   grid-template-columns: repeat(3, 117px);
-  grid-template-rows: 117px;
+  /* grid-template-rows: 117px; */
   justify-content: space-evenly;
   /* border: 3px solid blue; */
 }
 
 .square-hidden {
   /* padding: 8.5px; */
-  color: #A0A7A5;
+  /* color: #A0A7A5;
   font-size: 6em;
   text-align: center;
-  border: 1px solid #A0A7A5;
+  border: 1px solid #A0A7A5; */
   display: none;
 }
 
 .square {
   /* padding: 8.5px; */
+  height: 117px;
   color: #A0A7A5;
   font-size: 6em;
   text-align: center;
