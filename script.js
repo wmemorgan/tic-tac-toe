@@ -21,7 +21,8 @@ let gameMenu = document.getElementById("game-menu"),
     activeMarker,
     activePlayer,
     playerCount,
-    gameResetBtn = document.getElementById("game-reset");
+    gameResetBtn = document.getElementById("game-reset"),
+    gameResults = document.getElementById("game-results");
 
 const chooseOption1 = () => {
   if(gameMenu2) {
@@ -94,6 +95,7 @@ const hideBoard = (object) => {
   gameResetBtn.style.visibility = 'hidden';
   player1Banner.style.visibility = 'hidden';
   player2Banner.style.visibility = 'hidden';
+  gameResults.style.visibility = 'hidden';
   //Hide squares
   for (i = 0; i < object.length; i++) {
     object[i].classList.add("square-hidden");
@@ -162,6 +164,8 @@ const winnerAlert = (arr) => {
   for (let i = 0; i < arr.length; i++) {
     arr[i].classList.add('square-winner');
   }
+  gameResults.style.visibility = 'visible';
+  gameResults.innerHTML = 'The winner is ' + activePlayer;
   return true;
 }  
 
@@ -218,7 +222,8 @@ const winCheck = (mark) => {
         rotatePlayer();
     }
     if(markerCount == 9) {
-      console.log("The game is a draw")
+      console.log("The game is a draw");
+      gameResults.style.visibility = 'visible';
       return false;
     }
   }
