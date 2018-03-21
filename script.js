@@ -97,6 +97,7 @@ const hideBoard = (object) => {
   //Hide squares
   for (i = 0; i < object.length; i++) {
     object[i].classList.add("square-hidden");
+    object[i].classList.remove('square-winner');
     if (object[i].hasChildNodes()) {
       object[i].removeChild(square[i].firstChild);
     }
@@ -152,31 +153,73 @@ const playerMarker = (i) => {
   }
 }
 
-const winnerAlert = (mark) => {
+const winnerAlert = (arr) => {
   console.log("The winner is:", activePlayer);
-  hideBoard(square);
+  // hideBoard(square);
+  // square1.style.backgroundColor = 'black';
+  // square2.style.backgroundColor = 'black';
+  // square3.style.backgroundColor = 'black';
+  for (let i = 0; i < arr.length; i++) {
+    arr[i].classList.add('square-winner');
+  }
   return true;
 }  
 
 const winCheck = (mark) => {
+  let winningSquares = [];
   if (markerCount < 3) {
     console.log("Not enough squares marked.");
     rotatePlayer();
     return false;
   } else {
     console.log("Checking winner...", mark);
-    if ((square[0].innerHTML === mark && square[1].innerHTML === mark && square[2].innerHTML === mark) || // across the top
-        (square[3].innerHTML === mark && square[4].innerHTML === mark && square[5].innerHTML === mark) || // across the middle
-        (square[6].innerHTML === mark && square[7].innerHTML === mark && square[8].innerHTML === mark) || // across the bottom
-        (square[0].innerHTML === mark && square[3].innerHTML === mark && square[6].innerHTML === mark) || // down the left side
-        (square[1].innerHTML === mark && square[4].innerHTML === mark && square[7].innerHTML === mark) || // down the middle
-        (square[2].innerHTML === mark && square[5].innerHTML === mark && square[8].innerHTML === mark) || // down the right side
-        (square[0].innerHTML === mark && square[4].innerHTML === mark && square[8].innerHTML === mark) || // diagonal
-        (square[2].innerHTML === mark && square[4].innerHTML === mark && square[6].innerHTML === mark)) {// diagonal
-          console.log("Winner!");
-          winnerAlert(mark);
-    } else {
-      rotatePlayer();
+    switch (true) {
+      case square[0].innerHTML === mark && square[1].innerHTML === mark && square[2].innerHTML === mark: // across the top
+        console.log("Winner!");
+        winningSquares = [square[0], square[1], square[2]];
+        winnerAlert(winningSquares);
+        break;
+      case square[3].innerHTML === mark && square[4].innerHTML === mark && square[5].innerHTML === mark: // across the middle
+        console.log("Winner!");
+        winningSquares = [square[3], square[4], square[5]];
+        winnerAlert(winningSquares);
+        break;
+      case square[6].innerHTML === mark && square[7].innerHTML === mark && square[8].innerHTML === mark: // across the bottom
+        console.log("Winner!");
+        winningSquares = [square[6], square[7], square[8]];
+        winnerAlert(winningSquares);
+        break;
+      case square[0].innerHTML === mark && square[3].innerHTML === mark && square[6].innerHTML === mark: // down the left side
+        console.log("Winner!");
+        winningSquares = [square[0], square[3], square[6]];
+        winnerAlert(winningSquares);
+        break;
+      case square[1].innerHTML === mark && square[4].innerHTML === mark && square[7].innerHTML === mark: // down the middle
+        console.log("Winner!");
+        winningSquares = [square[1], square[4], square[7]];
+        winnerAlert(winningSquares);
+        break;
+      case square[2].innerHTML === mark && square[5].innerHTML === mark && square[8].innerHTML === mark: // down the right side
+        console.log("Winner!");
+        winningSquares = [square[2], square[5], square[8]];
+        winnerAlert(winningSquares);
+        break;
+      case square[0].innerHTML === mark && square[4].innerHTML === mark && square[8].innerHTML === mark: // diagonal
+        console.log("Winner!");
+        winningSquares = [square[0], square[4], square[8]];
+        winnerAlert(winningSquares);
+        break;
+      case square[2].innerHTML === mark && square[4].innerHTML === mark && square[6].innerHTML === mark: // diagonal
+        console.log("Winner!");
+        winningSquares = [square[2], square[4], square[6]];
+        winnerAlert(winningSquares);
+        break;
+      default:
+        rotatePlayer();
+    }
+    if(markerCount == 9) {
+      console.log("The game is a draw")
+      return false;
     }
   }
 
