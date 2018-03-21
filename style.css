@@ -69,7 +69,7 @@ body, html {
   margin-top: 0px;
   color: #875D4D;
   grid-auto-rows: auto;
-  visibility: visible;
+  visibility: hidden;
   text-align: right;
   /* border: 1px solid black; */
   
