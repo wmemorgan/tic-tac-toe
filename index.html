@@ -13,11 +13,13 @@
       <div id="go-player-2">go player 2!</div>
     </div>
     <div id="scoreboard">
-      <div id="player-1">0<br>
-        player 1</div>
-      <div id="player-2">0<br>
-        player 2</div>
-      <div id="game-reset">reset all</div>
+      <div class="score-options" id="player-1-score">0
+        <div class="score-options" id="player-1">player 1</div>
+      </div>
+      <div class="score-options" id="player-2-score">0
+        <div class="score-options" id="player-2">player 2</div>
+      </div>
+      <div class="score-options" id="game-reset">reset all</div>
       <div id="board">
         <div id="game-menu">
           <div class="option" id="question"><p>How do you want to play?</p></div>
@@ -26,7 +28,11 @@
           <div class="option" id="back-btn">back</div>
 
         </div>
-        <div id="game-results">The game is a draw</div>
+        <div id="game-end">
+          <div id="game-results">The game is a draw</div>
+          <div class="game-end-options" id="end-option-1">Continue Playing</div>
+          <div class="game-end-options" id="end-option-2">Exit Game</div>
+        </div>
         <div class="square square-hidden top-row left-col"></div>
         <div class="square square-hidden top-row center-col"></div>
         <div class="square square-hidden top-row right-col"></div>

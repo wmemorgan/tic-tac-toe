@@ -65,22 +65,23 @@ body, html {
   justify-content: space-evenly;
 }
 
-#player-1, #player-2, #game-reset {
+.score-options {
   margin-top: 0px;
   color: #875D4D;
   grid-auto-rows: auto;
-  visibility: hidden;
+  visibility: visible;
+  text-align: right;
   /* border: 1px solid black; */
+  
 }
 
-#player-1 {
-  justify-self: end;
+/* #player-1 {
+  text-align: right;
 }
 
 #player-2 {
-  
-  justify-self: start;
-}
+  text-align: left;
+} */
 
 #game-reset {
   justify-self: end;
@@ -152,20 +153,20 @@ body, html {
   z-index: 1;
 }
 
-#game-results{
+#game-end{
   position: absolute;
   top: 55%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2 1fr);
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   width: 351px;
   height: 351px;
   color: white;
-  font-size: 2em;
   padding: 14.5px;
-  /* text-align: center; */
+  text-align: center;
   /* margin: auto; */
   grid-column: 1 / span 3;
   grid-row: 1 / span 3;
@@ -173,6 +174,20 @@ body, html {
   visibility: hidden;
   z-index: 2;
 }
+
+#game-results {
+  grid-column: 1 / span 2;
+  font-size: 2em;
+  border: 2px solid white;
+}
+
+.game-end-options {
+  border: 1px solid white;
+  /* align-items: center;
+  justify-content: center; */
+}
+
+
 
 .square-hidden {
   /* padding: 8.5px; */
