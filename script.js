@@ -1,28 +1,36 @@
 // Declare global variables
 let gameMenu = document.getElementById("game-menu"),
-    gameMenu2 = false,
-    question = document.getElementById("question"),
-    defaultQuestion = question.innerHTML,
-    option1 = document.getElementById("option-1"),
-    defaultOption1 = option1.innerHTML,
-    option2 = document.getElementById("option-2"),
-    defaultOption2 = option2.innerHTML,
-    square = document.getElementsByClassName("square"),
-    backButton = document.getElementById("back-btn"),
-    choice,
-    markerCount = 0,
-    player1Banner = document.getElementById("go-player-1"),
-    player2Banner = document.getElementById("go-player-2"),
-    player1 = document.getElementById("player-1"),
-    player2 = document.getElementById("player-2"),
-    defaultPlayer2 = player2,
-    player1Marker,
-    player2Marker,
-    activeMarker,
-    activePlayer,
-    playerCount,
-    gameResetBtn = document.getElementById("game-reset"),
-    gameResults = document.getElementById("game-results");
+  gameMenu2 = false,
+  question = document.getElementById("question"),
+  defaultQuestion = question.innerHTML,
+  option1 = document.getElementById("option-1"),
+  defaultOption1 = option1.innerHTML,
+  option2 = document.getElementById("option-2"),
+  defaultOption2 = option2.innerHTML,
+  square = document.getElementsByClassName("square"),
+  backButton = document.getElementById("back-btn"),
+  choice,
+  markerCount = 0,
+  player1Banner = document.getElementById("go-player-1"),
+  player2Banner = document.getElementById("go-player-2"),
+  player1 = document.getElementById("player-1"),
+  player2 = document.getElementById("player-2"),
+  defaultPlayer2 = player2,
+  player1Marker,
+  player2Marker,
+  scoreOptions = document.getElementsByClassName("score-options"),
+  player1Score = document.getElementById("player-1-score"),
+  player2Score = document.getElementById("player-2-score"),
+  player1Wins = 0,
+  player2Wins = 0,
+  activeMarker,
+  activePlayer,
+  playerCount,
+  gameResetBtn = document.getElementById("game-reset"),
+  gameEnd = document.getElementById("game-end"),
+  gameResults = document.getElementById("game-results"),
+  endOption1 = document.getElementById("end-option-1"),
+  endOption2 = document.getElementById("end-option-2");
 
 const chooseOption1 = () => {
   if(gameMenu2) {
@@ -60,6 +68,7 @@ const chooseOption2 = () => {
 }
 
 const goBack = () => {
+  resetScore();
   player2 = defaultPlayer2;
   gameMenu2 = false;
   playerCount = undefined;
@@ -69,46 +78,55 @@ const goBack = () => {
   option1.innerHTML = defaultOption1;
   option2.innerHTML = defaultOption2;
   backButton.style.visibility = 'hidden';
-  hideBoard(square); 
+  hideBoard(); 
 }
 
-const showBoard = (object) => {
+const toggleScoreboard = (state) => {
+ for (let i = 0; i < scoreOptions.length; i++) {
+   scoreOptions[i].style.visibility = state;
+ }
+}
+
+const resetScore = () => {
+  player1Wins = 0;
+  player1Score.innerHTML = player1Wins;
+  player2Wins = 0;
+  player2Score.innerHTML = player2Wins;
+}
+
+const showBoard = () => {
+  gameMenu.style.display = "none";
   choosePlayer();
   if(playerCount === 1) {
-    player2.innerHTML = "0" + '<br>' + "computer";
+    player2.innerHTML = "computer";
   }
 
-  gameMenu.style.display = "none";
-  player1.style.visibility = 'visible';
-  player2.style.visibility = 'visible';
-  gameResetBtn.style.visibility = 'visible';
-
-  for (i=0; i < object.length; i++) {
-    object[i].classList.remove("square-hidden");
-    object[i].addEventListener("click", playerMarker(i));
+  toggleScoreboard('visible');
+  for (i=0; i < square.length; i++) {
+    square[i].classList.remove("square-hidden");
+    square[i].addEventListener("click", playerMarker(i));
   }
 }
 
-const hideBoard = (object) => {
-  player1.style.visibility = 'hidden';
-  player2.style.visibility = 'hidden';
-  gameResetBtn.style.visibility = 'hidden';
+const hideBoard = () => {
+  toggleScoreboard('hidden');
+  markerCount = 0,
   player1Banner.style.visibility = 'hidden';
   player2Banner.style.visibility = 'hidden';
-  gameResults.style.visibility = 'hidden';
+  gameEnd.style.visibility = 'hidden';
   //Hide squares
-  for (i = 0; i < object.length; i++) {
-    object[i].classList.add("square-hidden");
-    object[i].classList.remove('square-winner');
-    if (object[i].hasChildNodes()) {
-      object[i].removeChild(square[i].firstChild);
+  for (i = 0; i < square.length; i++) {
+    square[i].classList.add("square-hidden");
+    square[i].classList.remove('square-winner');
+    if (square[i].hasChildNodes()) {
+      square[i].removeChild(square[i].firstChild);
     }
   }
 }
 
-const resetBoard = (object) => {
-  hideBoard(object);
-  showBoard(object);
+const resetBoard = () => {
+    hideBoard();
+    showBoard();
 }
 
 const choosePlayer = () => {
@@ -156,22 +174,25 @@ const playerMarker = (i) => {
       markerCount++;
       winCheck(activeMarker);
     }
-
   }
 }
 
 const winnerAlert = (arr) => {
   console.log("The winner is:", activePlayer);
-  // hideBoard(square);
-  // square1.style.backgroundColor = 'black';
-  // square2.style.backgroundColor = 'black';
-  // square3.style.backgroundColor = 'black';
   for (let i = 0; i < arr.length; i++) {
     arr[i].classList.add('square-winner');
   }
-  gameResults.style.visibility = 'visible';
+  gameEnd.style.visibility = 'visible';
   gameResults.innerHTML = 'The winner is ' + activePlayer;
-  return true;
+  if (activePlayer === "Player 1") {
+    player1Wins++;
+    player1Score.innerHTML = player1Wins;
+    console.log(activePlayer + " has " + player1Wins + " wins!");
+  } else if (activePlayer === "Player 2") {
+    player2Wins++;
+    player2Score.innerHTML = player2Wins;
+    console.log(activePlayer + " has " + player2Wins, " wins!");
+    }
 }  
 
 const winCheck = (mark) => {
@@ -224,13 +245,15 @@ const winCheck = (mark) => {
         winnerAlert(winningSquares);
         break;
       default:
+        if (markerCount == 9) {
+          console.log("The game is a draw");
+          gameResults.innerHTML = "The game is a draw"
+          gameEnd.style.visibility = 'visible';
+          return false;
+        }
         rotatePlayer();
     }
-    if(markerCount == 9) {
-      console.log("The game is a draw");
-      gameResults.style.visibility = 'visible';
-      return false;
-    }
+
   }
 
 
@@ -241,3 +264,5 @@ option1.addEventListener("click", chooseOption1);
 option2.addEventListener("click", chooseOption2);
 backButton.addEventListener("click", goBack);
 gameResetBtn.addEventListener("click", goBack);
+endOption1.addEventListener("click", resetBoard);
+endOption2.addEventListener("click", goBack);

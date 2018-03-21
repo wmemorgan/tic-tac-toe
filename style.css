@@ -183,18 +183,11 @@ body, html {
 
 .game-end-options {
   border: 1px solid white;
-  /* align-items: center;
-  justify-content: center; */
 }
 
 
 
 .square-hidden {
-  /* padding: 8.5px; */
-  /* color: #A0A7A5;
-  font-size: 6em;
-  text-align: center;
-  border: 1px solid #A0A7A5; */
   display: none;
 }
 
@@ -208,7 +201,8 @@ body, html {
 }
 
 .square-winner {
-  background-color: black;
+  color: green;
+  background-color: khaki;
 }
 
 .top-row {
