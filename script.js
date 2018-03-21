@@ -106,6 +106,11 @@ const hideBoard = (object) => {
   }
 }
 
+const resetBoard = (object) => {
+  hideBoard(object);
+  showBoard(object);
+}
+
 const choosePlayer = () => {
    choice = Math.floor((Math.random() * 2) + 1)
     if (choice === 1) {
