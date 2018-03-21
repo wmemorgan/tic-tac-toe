@@ -144,6 +144,26 @@ body, html {
   /* grid-template-rows: 117px; */
   justify-content: space-evenly;
   /* border: 3px solid blue; */
+  z-index: 1;
+}
+
+#game-results{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 351px;
+  height: 351px;
+  color: white;
+  font-size: 2em;
+  padding: 14.5px;
+  /* text-align: center; */
+  /* margin: auto; */
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 3;
+  background-color: rgba(0,0,0,0.5);
+  visibility: hidden;
+  z-index: 2;
 }
 
 .square-hidden {
