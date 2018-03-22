@@ -25,6 +25,7 @@ let gameMenu = document.getElementById("game-menu"),
   player2Wins = 0,
   activeMarker,
   activePlayer,
+  opponentMarker,
   playerCount,
   gameResetBtn = document.getElementById("game-reset"),
   gameEnd = document.getElementById("game-end"),
@@ -125,7 +126,7 @@ const hideBoard = () => {
   }
 }
 
-const resetBoard = () => {
+const replay = () => {
     hideBoard();
     showBoard();
     rotateBanner();
@@ -136,6 +137,7 @@ const choosePlayer = () => {
     if (choice === 1) {
       activeMarker = player1Marker;
       activePlayer = "Player 1";
+      
     } else {
       activeMarker = player2Marker;
       activePlayer = "Player 2";
@@ -147,11 +149,15 @@ const rotatePlayer = () => {
   if (choice === 1) {
     choice = 2;
     activeMarker = player2Marker;
+    opponentMarker = player1Marker;
     activePlayer = "Player 2";
+    activeChoice = choice;
   } else {
     choice = 1;
     activeMarker = player1Marker;
+    opponentMarker = player2Marker;
     activePlayer = "Player 1";
+    activeChoice = choice;
   }
   rotateBanner();
 }
@@ -177,6 +183,18 @@ const playerMarker = (i) => {
       winCheck(activeMarker);
     }
   }
+}
+
+const flattenedBoard = (board) => {
+  let boardArray = [];
+  for (let i = 0; i < board.length; i++) {
+    boardArray.push(board[i].innerHTML);
+  }
+  return boardArray;
+}
+
+const availableSquares = (board) => {
+  return flattenedBoard(board).filter(s => s != 'O' && s != 'X');
 }
 
 const winnerAlert = (arr) => {
@@ -210,41 +228,49 @@ const winCheck = (mark) => {
         console.log("Winner!");
         winningSquares = [square[0], square[1], square[2]];
         winnerAlert(winningSquares);
+        return true;
         break;
       case square[3].innerHTML === mark && square[4].innerHTML === mark && square[5].innerHTML === mark: // across the middle
         console.log("Winner!");
         winningSquares = [square[3], square[4], square[5]];
         winnerAlert(winningSquares);
+        return true;
         break;
       case square[6].innerHTML === mark && square[7].innerHTML === mark && square[8].innerHTML === mark: // across the bottom
         console.log("Winner!");
         winningSquares = [square[6], square[7], square[8]];
         winnerAlert(winningSquares);
+        return true;
         break;
       case square[0].innerHTML === mark && square[3].innerHTML === mark && square[6].innerHTML === mark: // down the left side
         console.log("Winner!");
         winningSquares = [square[0], square[3], square[6]];
         winnerAlert(winningSquares);
+        return true;
         break;
       case square[1].innerHTML === mark && square[4].innerHTML === mark && square[7].innerHTML === mark: // down the middle
         console.log("Winner!");
         winningSquares = [square[1], square[4], square[7]];
         winnerAlert(winningSquares);
+        return true;
         break;
       case square[2].innerHTML === mark && square[5].innerHTML === mark && square[8].innerHTML === mark: // down the right side
         console.log("Winner!");
         winningSquares = [square[2], square[5], square[8]];
         winnerAlert(winningSquares);
+        return true;
         break;
       case square[0].innerHTML === mark && square[4].innerHTML === mark && square[8].innerHTML === mark: // diagonal
         console.log("Winner!");
         winningSquares = [square[0], square[4], square[8]];
         winnerAlert(winningSquares);
+        return true;
         break;
       case square[2].innerHTML === mark && square[4].innerHTML === mark && square[6].innerHTML === mark: // diagonal
         console.log("Winner!");
         winningSquares = [square[2], square[4], square[6]];
         winnerAlert(winningSquares);
+        return true;
         break;
       default:
         if (markerCount == 9) {
@@ -258,14 +284,144 @@ const winCheck = (mark) => {
     }
 
   }
+}
+
+const winCheckLite = (boardArray, mark) => {
+  // let winningSquares = [];
+  // let boardArray = [];
+  // for (i = 0; i < board.length; i++) {
+  //   boardArray.push(board[i].innerHTML);
+  // }
+  if (markerCount < 3) {
+    console.log("Not enough squares marked.");
+    rotatePlayer();
+    return false;
+  } else {
+    console.log("Checking winner...", mark);
+    switch (true) {
+      case boardArray[0] === mark && boardArray[1] === mark && boardArray[2] === mark: // across the top
+        console.log("Winner!");
+        // winningboards = [boardArray[0], boardArray[1], boardArray[2]];
+        // winnerAlert(winningboards);
+        return true;
+        break;
+      case boardArray[3] === mark && boardArray[4] === mark && boardArray[5] === mark: // across the middle
+        console.log("Winner!");
+        // winningboards = [boardArray[3], boardArray[4], boardArray[5]];
+        // winnerAlert(winningboards);
+        return true;
+        break;
+      case boardArray[6] === mark && boardArray[7] === mark && boardArray[8] === mark: // across the bottom
+        console.log("Winner!");
+        // winningboards = [boardArray[6], boardArray[7], boardArray[8]];
+        // winnerAlert(winningboards);
+        return true;
+        break;
+      case boardArray[0] === mark && boardArray[3] === mark && boardArray[6] === mark: // down the left side
+        console.log("Winner!");
+        // winningboards = [boardArray[0], boardArray[3], boardArray[6]];
+        // winnerAlert(winningboards);
+        return true;
+        break;
+      case boardArray[1] === mark && boardArray[4] === mark && boardArray[7] === mark: // down the middle
+        console.log("Winner!");
+        // winningboards = [boardArray[1], boardArray[4], boardArray[7]];
+        // winnerAlert(winningboards);
+        return true;
+        break;
+      case boardArray[2] === mark && boardArray[5] === mark && boardArray[8] === mark: // down the right side
+        console.log("Winner!");
+        // winningSquares = [boardArray[2], boardArray[5], boardArray[8]];
+        // winnerAlert(winningSquares);
+        return true;
+        break;
+      case boardArray[0] === mark && boardArray[4] === mark && boardArray[8] === mark: // diagonal
+        console.log("Winner!");
+        // winningSquares = [boardArray[0], boardArray[4], boardArray[8]];
+        // winnerAlert(winningSquares);
+        return true;
+        break;
+      case boardArray[2] === mark && boardArray[4] === mark && boardArray[6] === mark: // diagonal
+        console.log("Winner!");
+        // winningSquares = [boardArray[2], boardArray[4], boardArray[6]];
+        // winnerAlert(winningSquares);
+        return true;
+        break;
+      default:
+        if (markerCount == 9) {
+          console.log("The game is a draw");
+          // gameResults.innerHTML = "The game is a draw"
+          // gameEnd.style.visibility = 'visible';
+          // rotatePlayer();
+          return false;
+        }
+        // rotatePlayer();
+    }
+
+  }
+}
+
+const score = (board, mark, player) => {
+  if(winCheckLite(flattenedBoard(board), mark) && activePlayer === player) {
+    console.log("Yeah baby!");
+    return {score: 10};
+  } else if (winCheckLite(flattenedBoard(board), mark) && activePlayer !== player) {
+    console.log("Oh crap!");
+    return {score: -10};
+  } else {
+    console.log("Oh well!");
+    return {score: 0};
+  }
+}
 
 
+const minimax = (board, mark, player) => {
+  let availSpots = availableSquares(board);
+  score(board, mark, player);
+  var moves = [];
+
+  for (let i = 0; i < availSpots.length; i++) {
+    var move = {};
+    move.index = board[availSpots[i]];
+    board[availSpots[i]] = mark;
+
+    if(activePlayer === player) {
+      let result = minimax(board, mark, player);
+      move.score = result.score;
+    } else {
+      let result = minimax(board, mark, !player);
+      move.score = result.score;
+    }
+
+    board[availSpots[i]] = move.index;
+    moves.push(move);
+  }
+
+  let bestMove;
+  if (activePlayer === player) {
+    let bestScore = -10000;
+    for (let i = 0; i < moves.length; i++) {
+      if(moves[i].score > bestScore) {
+        bestScore = moves[i].score;
+        bestMove = i;
+      }
+    }
+  }else {
+    let bestScore = 10000;
+    for(var i = 0; i < moves.length; i++) {
+      if(moves[i].score < bestSCore) {
+        bestScore = moves[i].score;
+        bestMove = i;
+      }
+    }
+  }
   
+  return moves[bestMove];
 }
 
 option1.addEventListener("click", chooseOption1);
 option2.addEventListener("click", chooseOption2);
 backButton.addEventListener("click", goBack);
 gameResetBtn.addEventListener("click", goBack);
-endOption1.addEventListener("click", resetBoard);
+endOption1.addEventListener("click", replay);
 endOption2.addEventListener("click", goBack);
