@@ -38,6 +38,7 @@ const chooseOption1 = () => {
     console.log("Player 1 is:", player1Marker);
     player2Marker = 'O';
     console.log("Player 2 is:", player2Marker);
+    choosePlayer();
     showBoard(square);
   } else {
     question.innerHTML = 'Would you like to be X or O?'
@@ -55,6 +56,7 @@ const chooseOption2 = () => {
     console.log("Player 1 is:", player1Marker);
     player2Marker = 'X';
     console.log("Player 2 is:", player2Marker);
+    choosePlayer();
     showBoard(square);
   } else {
     question.innerHTML = 'Player 1: Would you like to be X or O?'
@@ -96,7 +98,6 @@ const resetScore = () => {
 
 const showBoard = () => {
   gameMenu.style.display = "none";
-  choosePlayer();
   if(playerCount === 1) {
     player2.innerHTML = "computer";
   }
@@ -127,6 +128,7 @@ const hideBoard = () => {
 const resetBoard = () => {
     hideBoard();
     showBoard();
+    rotateBanner();
 }
 
 const choosePlayer = () => {
@@ -249,9 +251,10 @@ const winCheck = (mark) => {
           console.log("The game is a draw");
           gameResults.innerHTML = "The game is a draw"
           gameEnd.style.visibility = 'visible';
+          rotatePlayer();
           return false;
         }
-        rotatePlayer();
+      rotatePlayer();
     }
 
   }
