@@ -33,6 +33,7 @@ let gameMenu = document.getElementById("game-menu"),
   endOption1 = document.getElementById("end-option-1"),
   endOption2 = document.getElementById("end-option-2");
 
+
 const chooseOption1 = () => {
   if(gameMenu2) {
     player1Marker = 'X';
@@ -162,6 +163,24 @@ const rotatePlayer = () => {
   rotateBanner();
 }
 
+const rotatePlayerAI = () => {
+  if (choice === 1) {
+    choice = 2;
+    activeMarker = player2Marker;
+    opponentMarker = player1Marker;
+    activePlayer = "Player 2";
+    activeChoice = choice;
+    bestSpot();
+  } else {
+    choice = 1;
+    activeMarker = player1Marker;
+    opponentMarker = player2Marker;
+    activePlayer = "Player 1";
+    activeChoice = choice;
+  }
+  rotateBanner();
+}
+
 const rotateBanner = () => {
   if (choice === 1) {
     player2Banner.style.visibility = 'hidden';
@@ -194,7 +213,7 @@ const flattenedBoard = (board) => {
 }
 
 const availableSquares = (board) => {
-  return flattenedBoard(board).filter(s => s != 'O' && s != 'X');
+  return board.filter(s => s != 'O' && s != 'X');
 }
 
 const winnerAlert = (arr) => {
@@ -219,7 +238,7 @@ const winCheck = (mark) => {
   let winningSquares = [];
   if (markerCount < 3) {
     console.log("Not enough squares marked.");
-    rotatePlayer();
+    rotatePlayerAI();
     return false;
   } else {
     console.log("Checking winner...", mark);
@@ -277,147 +296,97 @@ const winCheck = (mark) => {
           console.log("The game is a draw");
           gameResults.innerHTML = "The game is a draw"
           gameEnd.style.visibility = 'visible';
-          rotatePlayer();
+          rotatePlayerAI();
           return false;
         }
-      rotatePlayer();
+      rotatePlayerAI();
     }
 
   }
 }
 
 const winCheckLite = (boardArray, mark) => {
-  // let winningSquares = [];
-  // let boardArray = [];
-  // for (i = 0; i < board.length; i++) {
-  //   boardArray.push(board[i].innerHTML);
-  // }
-  if (markerCount < 3) {
-    console.log("Not enough squares marked.");
-    rotatePlayer();
+  if ((square[0].innerHTML === mark && square[1].innerHTML === mark && square[2].innerHTML === mark) || // across the top
+    (square[3].innerHTML === mark && square[4].innerHTML === mark && square[5].innerHTML === mark) || // across the middle
+    (square[6].innerHTML === mark && square[7].innerHTML === mark && square[8].innerHTML === mark) || // across the bottom
+    (square[0].innerHTML === mark && square[3].innerHTML === mark && square[6].innerHTML === mark) || // down the left side
+    (square[1].innerHTML === mark && square[4].innerHTML === mark && square[7].innerHTML === mark) || // down the middle
+    (square[2].innerHTML === mark && square[5].innerHTML === mark && square[8].innerHTML === mark) || // down the right side
+    (square[0].innerHTML === mark && square[4].innerHTML === mark && square[8].innerHTML === mark) || // diagonal
+    (square[2].innerHTML === mark && square[4].innerHTML === mark && square[6].innerHTML === mark)) {// diagonal
+      return true;
+  } else {
     return false;
-  } else {
-    console.log("Checking winner...", mark);
-    switch (true) {
-      case boardArray[0] === mark && boardArray[1] === mark && boardArray[2] === mark: // across the top
-        console.log("Winner!");
-        // winningboards = [boardArray[0], boardArray[1], boardArray[2]];
-        // winnerAlert(winningboards);
-        return true;
-        break;
-      case boardArray[3] === mark && boardArray[4] === mark && boardArray[5] === mark: // across the middle
-        console.log("Winner!");
-        // winningboards = [boardArray[3], boardArray[4], boardArray[5]];
-        // winnerAlert(winningboards);
-        return true;
-        break;
-      case boardArray[6] === mark && boardArray[7] === mark && boardArray[8] === mark: // across the bottom
-        console.log("Winner!");
-        // winningboards = [boardArray[6], boardArray[7], boardArray[8]];
-        // winnerAlert(winningboards);
-        return true;
-        break;
-      case boardArray[0] === mark && boardArray[3] === mark && boardArray[6] === mark: // down the left side
-        console.log("Winner!");
-        // winningboards = [boardArray[0], boardArray[3], boardArray[6]];
-        // winnerAlert(winningboards);
-        return true;
-        break;
-      case boardArray[1] === mark && boardArray[4] === mark && boardArray[7] === mark: // down the middle
-        console.log("Winner!");
-        // winningboards = [boardArray[1], boardArray[4], boardArray[7]];
-        // winnerAlert(winningboards);
-        return true;
-        break;
-      case boardArray[2] === mark && boardArray[5] === mark && boardArray[8] === mark: // down the right side
-        console.log("Winner!");
-        // winningSquares = [boardArray[2], boardArray[5], boardArray[8]];
-        // winnerAlert(winningSquares);
-        return true;
-        break;
-      case boardArray[0] === mark && boardArray[4] === mark && boardArray[8] === mark: // diagonal
-        console.log("Winner!");
-        // winningSquares = [boardArray[0], boardArray[4], boardArray[8]];
-        // winnerAlert(winningSquares);
-        return true;
-        break;
-      case boardArray[2] === mark && boardArray[4] === mark && boardArray[6] === mark: // diagonal
-        console.log("Winner!");
-        // winningSquares = [boardArray[2], boardArray[4], boardArray[6]];
-        // winnerAlert(winningSquares);
-        return true;
-        break;
-      default:
-        if (markerCount == 9) {
-          console.log("The game is a draw");
-          // gameResults.innerHTML = "The game is a draw"
-          // gameEnd.style.visibility = 'visible';
-          // rotatePlayer();
-          return false;
-        }
-        // rotatePlayer();
-    }
-
   }
 }
 
-const score = (board, mark, player) => {
-  if(winCheckLite(flattenedBoard(board), mark) && activePlayer === player) {
-    console.log("Yeah baby!");
-    return {score: 10};
-  } else if (winCheckLite(flattenedBoard(board), mark) && activePlayer !== player) {
-    console.log("Oh crap!");
-    return {score: -10};
-  } else {
-    console.log("Oh well!");
-    return {score: 0};
-  }
-}
+// const score = (board, mark, player) => {
+//   if(winCheckLite(flattenedBoard(board), mark) && activePlayer === player) {
+//     console.log("Yeah baby!");
+//     return {score: 10};
+//   } else if (winCheckLite(flattenedBoard(board), mark) && activePlayer !== player) {
+//     console.log("Oh crap!");
+//     return {score: -10};
+//   } else {
+//     console.log("Oh well!");
+//     return {score: 0};
+//   }
+// }
 
-
-const minimax = (board, mark, player) => {
+const minimax = (board, player) => {
   let availSpots = availableSquares(board);
-  score(board, mark, player);
-  var moves = [];
-
+  if (winCheckLite(board, player)) {
+    return { score: -10 };
+  } else if (winCheckLite(board, player2Marker)) {
+    return { score: 20 };
+  } else if (availSpots.length === 0) {
+    return { score: 0 };
+  }
+  let moves = [];
   for (let i = 0; i < availSpots.length; i++) {
-    var move = {};
+    let move = {};
     move.index = board[availSpots[i]];
-    board[availSpots[i]] = mark;
+    board[availSpots[i]] = player;
 
-    if(activePlayer === player) {
-      let result = minimax(board, mark, player);
+    if (player === player2Marker) {
+      let result = minimax(board, player1Marker);
       move.score = result.score;
     } else {
-      let result = minimax(board, mark, !player);
+      let result = minimax(board, player2Marker);
       move.score = result.score;
     }
-
     board[availSpots[i]] = move.index;
+
     moves.push(move);
   }
 
   let bestMove;
-  if (activePlayer === player) {
+  if (player === player2Marker) {
     let bestScore = -10000;
     for (let i = 0; i < moves.length; i++) {
-      if(moves[i].score > bestScore) {
+      if (moves[i].score > bestScore) {
         bestScore = moves[i].score;
         bestMove = i;
       }
     }
-  }else {
+  } else {
     let bestScore = 10000;
-    for(var i = 0; i < moves.length; i++) {
-      if(moves[i].score < bestSCore) {
+    for (let i = 0; i < moves.length; i++) {
+      if (moves[i].score < bestScore) {
         bestScore = moves[i].score;
         bestMove = i;
       }
     }
   }
-  
   return moves[bestMove];
 }
+
+const bestSpot = () => {
+  return minimax(origBoard, player2Marker).index;
+}
+
+let origBoard = flattenedBoard(square);
+
 
 option1.addEventListener("click", chooseOption1);
 option2.addEventListener("click", chooseOption2);
