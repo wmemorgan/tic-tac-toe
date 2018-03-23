@@ -40,7 +40,6 @@ const chooseOption1 = () => {
     console.log("Player 1 is:", player1Marker);
     player2Marker = 'O';
     console.log("Player 2 is:", player2Marker);
-    choosePlayer();
     showBoard(square);
   } else {
     question.innerHTML = 'Would you like to be X or O?'
@@ -49,6 +48,7 @@ const chooseOption1 = () => {
     backButton.style.visibility = 'visible';
     gameMenu2 = true;
     playerCount = 1;
+    player1Start();
   }
 }
 
@@ -58,7 +58,6 @@ const chooseOption2 = () => {
     console.log("Player 1 is:", player1Marker);
     player2Marker = 'X';
     console.log("Player 2 is:", player2Marker);
-    choosePlayer();
     showBoard(square);
   } else {
     question.innerHTML = 'Player 1: Would you like to be X or O?'
@@ -67,6 +66,7 @@ const chooseOption2 = () => {
     backButton.style.visibility = 'visible';
     gameMenu2 = true;
     playerCount = 2;
+    choosePlayer();
   }
 
 }
@@ -100,20 +100,26 @@ const resetScore = () => {
 
 const showBoard = () => {
   gameMenu.style.display = "none";
+  toggleScoreboard('visible');
   if(playerCount === 1) {
     player2.innerHTML = "computer";
-  }
+    for (let i = 0; i < square.length; i++) {
+      square[i].classList.remove("square-hidden");
+      square[i].addEventListener("click", playerMarkerAI(i));
+    }
+  } else {
+    for (let i = 0; i < square.length; i++) {
+      square[i].classList.remove("square-hidden");
+      square[i].addEventListener("click", playerMarker(i));
+    }
+  }  
 
-  toggleScoreboard('visible');
-  for (i=0; i < square.length; i++) {
-    square[i].classList.remove("square-hidden");
-    square[i].addEventListener("click", playerMarker(i));
-  }
 }
 
 const hideBoard = () => {
   toggleScoreboard('hidden');
   markerCount = 0,
+  origBoard = Array.from(Array(9).keys());
   player1Banner.style.visibility = 'hidden';
   player2Banner.style.visibility = 'hidden';
   gameEnd.style.visibility = 'hidden';
@@ -146,6 +152,13 @@ const choosePlayer = () => {
     rotateBanner();
 }
 
+const player1Start = () => {
+  choice = 1
+  activeMarker = player1Marker;
+  activePlayer = "Player 1";
+  rotateBanner();
+}
+
 const rotatePlayer = () => {
   if (choice === 1) {
     choice = 2;
@@ -170,7 +183,6 @@ const rotatePlayerAI = () => {
     opponentMarker = player1Marker;
     activePlayer = "Player 2";
     activeChoice = choice;
-    bestSpot();
   } else {
     choice = 1;
     activeMarker = player1Marker;
@@ -204,6 +216,29 @@ const playerMarker = (i) => {
   }
 }
 
+const turn = (squareIndex, player) => {
+  origBoard[squareIndex] = player;
+  square[squareIndex].innerHTML = origBoard[squareIndex];
+  markerCount++;
+  console.log(markerCount);
+  square[squareIndex].removeEventListener("click", playerMarkerAI(squareIndex));
+  winCheckLite(origBoard, player);
+  rotatePlayerAI(); 
+}
+
+const playerMarkerAI = (index) => {
+  return () => {
+    if (typeof origBoard[index] === 'number' && 
+    !winCheckLite(origBoard, player1Marker)) {
+      turn(index, player1Marker);
+      if (!winCheckLite(origBoard, player1Marker)) {
+        turn(bestSpot(), player2Marker);
+      }
+    }
+  }
+
+}
+
 const flattenedBoard = (board) => {
   let boardArray = [];
   for (let i = 0; i < board.length; i++) {
@@ -212,15 +247,17 @@ const flattenedBoard = (board) => {
   return boardArray;
 }
 
+let origBoard = Array.from(Array(9).keys());
+
 const availableSquares = (board) => {
   return board.filter(s => s != 'O' && s != 'X');
 }
 
-const winnerAlert = (arr) => {
+const winnerAlert = () => {
   console.log("The winner is:", activePlayer);
-  for (let i = 0; i < arr.length; i++) {
-    arr[i].classList.add('square-winner');
-  }
+  // for (let i = 0; i < arr.length; i++) {
+  //   arr[i].classList.add('square-winner');
+  // }
   gameEnd.style.visibility = 'visible';
   gameResults.innerHTML = 'The winner is ' + activePlayer;
   if (activePlayer === "Player 1") {
@@ -238,7 +275,7 @@ const winCheck = (mark) => {
   let winningSquares = [];
   if (markerCount < 3) {
     console.log("Not enough squares marked.");
-    rotatePlayerAI();
+    rotatePlayer();
     return false;
   } else {
     console.log("Checking winner...", mark);
@@ -296,10 +333,10 @@ const winCheck = (mark) => {
           console.log("The game is a draw");
           gameResults.innerHTML = "The game is a draw"
           gameEnd.style.visibility = 'visible';
-          rotatePlayerAI();
+          rotatePlayer();
           return false;
         }
-      rotatePlayerAI();
+      rotatePlayer();
     }
 
   }
@@ -314,78 +351,22 @@ const winCheckLite = (boardArray, mark) => {
     (square[2].innerHTML === mark && square[5].innerHTML === mark && square[8].innerHTML === mark) || // down the right side
     (square[0].innerHTML === mark && square[4].innerHTML === mark && square[8].innerHTML === mark) || // diagonal
     (square[2].innerHTML === mark && square[4].innerHTML === mark && square[6].innerHTML === mark)) {// diagonal
+      winnerAlert();
       return true;
+  } else if (markerCount == 9) {
+    console.log("The game is a draw");
+    gameResults.innerHTML = "The game is a draw"
+    gameEnd.style.visibility = 'visible';
+    rotatePlayerAI();
+    return false; 
   } else {
     return false;
   }
 }
 
-// const score = (board, mark, player) => {
-//   if(winCheckLite(flattenedBoard(board), mark) && activePlayer === player) {
-//     console.log("Yeah baby!");
-//     return {score: 10};
-//   } else if (winCheckLite(flattenedBoard(board), mark) && activePlayer !== player) {
-//     console.log("Oh crap!");
-//     return {score: -10};
-//   } else {
-//     console.log("Oh well!");
-//     return {score: 0};
-//   }
-// }
-
-const minimax = (board, player) => {
-  let availSpots = availableSquares(board);
-  if (winCheckLite(board, player)) {
-    return { score: -10 };
-  } else if (winCheckLite(board, player2Marker)) {
-    return { score: 20 };
-  } else if (availSpots.length === 0) {
-    return { score: 0 };
-  }
-  let moves = [];
-  for (let i = 0; i < availSpots.length; i++) {
-    let move = {};
-    move.index = board[availSpots[i]];
-    board[availSpots[i]] = player;
-
-    if (player === player2Marker) {
-      let result = minimax(board, player1Marker);
-      move.score = result.score;
-    } else {
-      let result = minimax(board, player2Marker);
-      move.score = result.score;
-    }
-    board[availSpots[i]] = move.index;
-
-    moves.push(move);
-  }
-
-  let bestMove;
-  if (player === player2Marker) {
-    let bestScore = -10000;
-    for (let i = 0; i < moves.length; i++) {
-      if (moves[i].score > bestScore) {
-        bestScore = moves[i].score;
-        bestMove = i;
-      }
-    }
-  } else {
-    let bestScore = 10000;
-    for (let i = 0; i < moves.length; i++) {
-      if (moves[i].score < bestScore) {
-        bestScore = moves[i].score;
-        bestMove = i;
-      }
-    }
-  }
-  return moves[bestMove];
-}
-
 const bestSpot = () => {
-  return minimax(origBoard, player2Marker).index;
+  return availableSquares(origBoard)[0];
 }
-
-let origBoard = flattenedBoard(square);
 
 
 option1.addEventListener("click", chooseOption1);
