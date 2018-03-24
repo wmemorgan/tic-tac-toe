@@ -278,12 +278,6 @@ const winnerAlert = (arr, mark) => {
 
 const winCheck = (mark) => {
   let winningSquares = [];
-  // if (markerCount < 3) {
-  //   console.log("Not enough squares marked.");
-  //   // rotatePlayer();
-  //   return false;
-
-  // console.log("Checking winner...", mark);
   switch (true) {
     case square[0].innerHTML === mark && square[1].innerHTML === mark && square[2].innerHTML === mark: // across the top
       console.log("Winner!");
