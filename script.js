@@ -15,7 +15,6 @@ let gameMenu = document.getElementById("game-menu"),
   player2Banner = document.getElementById("go-player-2"),
   player1 = document.getElementById("player-1"),
   player2 = document.getElementById("player-2"),
-  defaultPlayer2 = player2,
   player1Marker,
   player2Marker,
   scoreOptions = document.getElementsByClassName("score-options"),
@@ -31,15 +30,24 @@ let gameMenu = document.getElementById("game-menu"),
   gameResults = document.getElementById("game-results"),
   endOption1 = document.getElementById("end-option-1"),
   endOption2 = document.getElementById("end-option-2"),
-  origBoard = Array.from(Array(9).keys());
+  origBoard = Array.from(Array(9).keys()),
+  winCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [6, 4, 2]
+  ];
 
 const availableSquares = () => {
   return origBoard.filter(s => s != 'O' && s != 'X');
 }
 
 const bestSpot = () => {
-  // return availableSquares(origBoard)[0];
-  return minimax(origBoard, player2Marker).index
+  return joshua(origBoard, player2Marker).index;
 }
 
 const chooseOption1 = () => {
@@ -119,7 +127,7 @@ const playerMarker = (index) => {
 
 const resetGame = () => {
   resetScore();
-  player2 = defaultPlayer2;
+  player2.innerHTML = "player 2"
   gameMenu2 = false;
   playerCount = undefined;
   markerCount = 0;
@@ -321,38 +329,56 @@ const winCheck = (mark) => {
         rotatePlayer();
         return false;
       }
-    rotatePlayer();
+      rotatePlayer();
   }
 }
 
-function minimax(newBoard, player) {
+const analyzeGame = (board, mark) => {
+  if (
+    (board[0] == mark && board[1] == mark && board[2] == mark) ||
+    (board[3] == mark && board[4] == mark && board[5] == mark) ||
+    (board[6] == mark && board[7] == mark && board[8] == mark) ||
+    (board[0] == mark && board[3] == mark && board[6] == mark) ||
+    (board[1] == mark && board[4] == mark && board[7] == mark) ||
+    (board[2] == mark && board[5] == mark && board[8] == mark) ||
+    (board[0] == mark && board[4] == mark && board[8] == mark) ||
+    (board[2] == mark && board[4] == mark && board[6] == mark)
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+//Advanced AI function
+function joshua(board, player) {
   var availSpots = availableSquares();
 
-  if (winCheck(player1Marker)) {
-    return { score: -10 };
-  } else if (winCheck(player2Marker)) {
-    return { score: 10 };
+  if (analyzeGame(board, player1Marker)) {
+    return {score: -10};
+  } else if (analyzeGame(board, player2Marker)) {
+    return {score: 10};
   } else if (availSpots.length === 0) {
-    return { score: 0 };
+    return {score: 0};
   }
   var moves = [];
   for (var i = 0; i < availSpots.length; i++) {
     var move = {};
-    move.index = newBoard[availSpots[i]];
-    newBoard[availSpots[i]] = player;
+    move.index = board[availSpots[i]];
+    board[availSpots[i]] = player;
 
     if (player == player2Marker) {
-      var result = minimax(newBoard, player1Marker);
+      var result = joshua(board, player1Marker);
       move.score = result.score;
     } else {
-      var result = minimax(newBoard, aiPlayer);
+      var result = joshua(board, player2Marker);
       move.score = result.score;
     }
-    newBoard[availSpots[i]] = move.index;
+    board[availSpots[i]] = move.index;
     moves.push(move);
   }
   var bestMove;
-  if (player === aiPlayer) {
+  if (player === player2Marker) {
     var bestScore = -10000;
     for (var i = 0; i < moves.length; i++) {
       if (moves[i].score > bestScore) {
