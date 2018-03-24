@@ -193,6 +193,7 @@ const player1Start = () => {
   choice = 1
   activeMarker = player1Marker;
   activePlayer = "Player 1";
+  player2.innerHTML = 'computer';
   rotateBanner();
 }
 
@@ -245,7 +246,7 @@ const winnerAlert = (arr, mark) => {
     for (let i = 0; i < arr.length; i++) {
       arr[i].classList.add('square-winner-1');
     }
-    gameResults.innerHTML = 'The winner is Player 1';
+    gameResults.innerHTML = 'The winner is ' + player1.innerHTML;
     player1Wins++;
     player1Score.innerHTML = player1Wins;
     console.log(activePlayer + " has " + player1Wins + " wins!");
@@ -253,7 +254,7 @@ const winnerAlert = (arr, mark) => {
     for (let i = 0; i < arr.length; i++) {
       arr[i].classList.add('square-winner-2');
     }
-    gameResults.innerHTML = 'The winner is Player 2';
+    gameResults.innerHTML = 'The winner is ' + player2.innerHTML;
     player2Wins++;
     player2Score.innerHTML = player2Wins;
     console.log(activePlayer + " has " + player2Wins, " wins!");
