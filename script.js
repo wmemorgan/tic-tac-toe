@@ -33,8 +33,8 @@ let gameMenu = document.getElementById("game-menu"),
   endOption2 = document.getElementById("end-option-2"),
   origBoard = Array.from(Array(9).keys());
 
-const availableSquares = (board) => {
-  return board.filter(s => s != 'O' && s != 'X');
+const availableSquares = () => {
+  return origBoard.filter(s => s != 'O' && s != 'X');
 }
 
 const bestSpot = () => {
@@ -328,9 +328,9 @@ const winCheck = (mark) => {
 function minimax(newBoard, player) {
   var availSpots = availableSquares();
 
-  if (checkWin(newBoard, player1Marker)) {
+  if (winCheck(player1Marker)) {
     return { score: -10 };
-  } else if (checkWin(newBoard, player2Marker)) {
+  } else if (winCheck(player2Marker)) {
     return { score: 10 };
   } else if (availSpots.length === 0) {
     return { score: 0 };
