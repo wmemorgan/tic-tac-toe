@@ -90,25 +90,38 @@ const chooseOption2 = () => {
 
 const selectSquare = (squareIndex, player) => {
   origBoard[squareIndex] = player;
-  square[squareIndex].innerHTML = origBoard[square];
+  square[squareIndex].innerHTML = origBoard[squareIndex];
   markerCount++;
   winCheck(player);
 }
 
 const playerMarkerAI = (index) => {
   return () => {
-    if (typeof origBoard[index] === 'number' &&
-      !winCheck(player1Marker)) {
+    if (typeof origBoard[index] === 'number' && !winCheck(player1Marker)) {
       selectSquare(index, player1Marker);
-      console.log("Player 1 selects:", origBoard[index]);
-      if (!winCheck(player2Marker)) {
-        selectSquare(bestSpot(), player2Marker);
-        console.log("Player 2 selects:", origBoard[index]);
+      console.log("Player 1 selects:", index);
+      if (typeof origBoard[bestSpot()] === 'number' && !winCheck(player2Marker)) {
+        let compIndex = bestSpot();
+        selectSquare(compIndex, player2Marker);
+        console.log("Computer selects:", compIndex);
       }
     }
-    rotatePlayer();
+    // rotatePlayer();
   }
+}
 
+const playerMarker = (i) => {
+  return () => {
+    if (square[i].hasChildNodes()) {
+      console.log('The square has been already been selected.');
+      return false;
+    } else {
+    // square[i].innerHTML = activeMarker;
+    // markerCount++;
+    // winCheck(activeMarker);
+    selectSquare(i, activeMarker);
+    }
+  }
 }
 
 const resetGame = () => {
@@ -165,7 +178,8 @@ const hideBoard = () => {
   //Hide squares
   for (i = 0; i < square.length; i++) {
     square[i].classList.add("square-hidden");
-    square[i].classList.remove('square-winner');
+    square[i].classList.remove('square-winner-1');
+    square[i].classList.remove('square-winner-2');
     if (square[i].hasChildNodes()) {
       square[i].removeChild(square[i].firstChild);
     }
@@ -199,41 +213,36 @@ const player1Start = () => {
 }
 
 const rotatePlayer = () => {
-  if (choice === 1) {
-    choice = 2;
-    activeMarker = player2Marker;
-    opponentMarker = player1Marker;
-    activePlayer = "Player 2";
-    activeChoice = choice;
+  if (playerCount === 1) {
+    return false;
   } else {
-    choice = 1;
-    activeMarker = player1Marker;
-    opponentMarker = player2Marker;
-    activePlayer = "Player 1";
-    activeChoice = choice;
+    if (choice === 1) {
+      choice = 2;
+      activeMarker = player2Marker;
+      opponentMarker = player1Marker;
+      activePlayer = "Player 2";
+      activeChoice = choice;
+    } else {
+      choice = 1;
+      activeMarker = player1Marker;
+      opponentMarker = player2Marker;
+      activePlayer = "Player 1";
+      activeChoice = choice;
+    }
+    rotateBanner();
   }
-  rotateBanner();
 }
 
 const rotateBanner = () => {
-  if (choice === 1) {
-    player2Banner.style.visibility = 'hidden';
-    player1Banner.style.visibility = 'visible';
+  if (playerCount === 1) {
+    return false;
   } else {
-    player1Banner.style.visibility = 'hidden';
-    player2Banner.style.visibility = 'visible';
-  }
-}
-
-const playerMarker = (i) => {
-  return () => {
-    if (square[i].hasChildNodes()) {
-      console.log('The square has been already been selected.');
-      return false;
+    if (choice === 1) {
+      player2Banner.style.visibility = 'hidden';
+      player1Banner.style.visibility = 'visible';
     } else {
-      square[i].innerHTML = activeMarker;
-      markerCount++;
-      winCheck(activeMarker);
+      player1Banner.style.visibility = 'hidden';
+      player2Banner.style.visibility = 'visible';
     }
   }
 }
@@ -246,18 +255,21 @@ const flattenedBoard = (board) => {
   return boardArray;
 }
 
-const winnerAlert = () => {
-  console.log("The winner is:", activePlayer);
-  // for (let i = 0; i < arr.length; i++) {
-  //   arr[i].classList.add('square-winner');
-  // }
+const winnerAlert = (arr, mark) => {
   gameEnd.style.visibility = 'visible';
-  gameResults.innerHTML = 'The winner is ' + activePlayer;
-  if (activePlayer === "Player 1") {
+  if (player1Marker === mark) {
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].classList.add('square-winner-1');
+    }
+    gameResults.innerHTML = 'The winner is Player 1';
     player1Wins++;
     player1Score.innerHTML = player1Wins;
     console.log(activePlayer + " has " + player1Wins + " wins!");
-  } else if (activePlayer === "Player 2") {
+  } else if (player2Marker === mark) {
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].classList.add('square-winner-2');
+    }
+    gameResults.innerHTML = 'The winner is Player 2';
     player2Wins++;
     player2Score.innerHTML = player2Wins;
     console.log(activePlayer + " has " + player2Wins, " wins!");
@@ -271,65 +283,65 @@ const winCheck = (mark) => {
   //   // rotatePlayer();
   //   return false;
 
-  console.log("Checking winner...", mark);
+  // console.log("Checking winner...", mark);
   switch (true) {
     case square[0].innerHTML === mark && square[1].innerHTML === mark && square[2].innerHTML === mark: // across the top
       console.log("Winner!");
       winningSquares = [square[0], square[1], square[2]];
-      winnerAlert(winningSquares);
-      return true;
+      winnerAlert(winningSquares, mark);
+      return mark;
       break;
     case square[3].innerHTML === mark && square[4].innerHTML === mark && square[5].innerHTML === mark: // across the middle
       console.log("Winner!");
       winningSquares = [square[3], square[4], square[5]];
-      winnerAlert(winningSquares);
-      return true;
+      winnerAlert(winningSquares, mark);
+      return mark;
       break;
     case square[6].innerHTML === mark && square[7].innerHTML === mark && square[8].innerHTML === mark: // across the bottom
       console.log("Winner!");
       winningSquares = [square[6], square[7], square[8]];
-      winnerAlert(winningSquares);
-      return true;
+      winnerAlert(winningSquares, mark);
+      return mark;
       break;
     case square[0].innerHTML === mark && square[3].innerHTML === mark && square[6].innerHTML === mark: // down the left side
       console.log("Winner!");
       winningSquares = [square[0], square[3], square[6]];
-      winnerAlert(winningSquares);
-      return true;
+      winnerAlert(winningSquares, mark);
+      return mark;
       break;
     case square[1].innerHTML === mark && square[4].innerHTML === mark && square[7].innerHTML === mark: // down the middle
       console.log("Winner!");
       winningSquares = [square[1], square[4], square[7]];
-      winnerAlert(winningSquares);
-      return true;
+      winnerAlert(winningSquares, mark);
+      return mark;
       break;
     case square[2].innerHTML === mark && square[5].innerHTML === mark && square[8].innerHTML === mark: // down the right side
       console.log("Winner!");
       winningSquares = [square[2], square[5], square[8]];
-      winnerAlert(winningSquares);
-      return true;
+      winnerAlert(winningSquares, mark);
+      return mark;
       break;
     case square[0].innerHTML === mark && square[4].innerHTML === mark && square[8].innerHTML === mark: // diagonal
       console.log("Winner!");
       winningSquares = [square[0], square[4], square[8]];
-      winnerAlert(winningSquares);
-      return true;
+      winnerAlert(winningSquares, mark);
+      return mark;
       break;
     case square[2].innerHTML === mark && square[4].innerHTML === mark && square[6].innerHTML === mark: // diagonal
       console.log("Winner!");
       winningSquares = [square[2], square[4], square[6]];
-      winnerAlert(winningSquares);
-      return true;
+      winnerAlert(winningSquares, mark);
+      return mark;
       break;
     default:
       if (markerCount == 9) {
         console.log("The game is a draw");
         gameResults.innerHTML = "The game is a draw"
         gameEnd.style.visibility = 'visible';
-        // rotatePlayer();
+        rotatePlayer();
         return false;
       }
-    // rotatePlayer();
+    rotatePlayer();
   }
 }
 
