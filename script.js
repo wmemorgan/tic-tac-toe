@@ -38,7 +38,8 @@ const availableSquares = (board) => {
 }
 
 const bestSpot = () => {
-  return availableSquares(origBoard)[0];
+  // return availableSquares(origBoard)[0];
+  return minimax(origBoard, player2Marker).index
 }
 
 const chooseOption1 = () => {
