@@ -30,17 +30,7 @@ let gameMenu = document.getElementById("game-menu"),
   gameResults = document.getElementById("game-results"),
   endOption1 = document.getElementById("end-option-1"),
   endOption2 = document.getElementById("end-option-2"),
-  origBoard = Array.from(Array(9).keys()),
-  winCombos = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [6, 4, 2]
-  ];
+  origBoard = Array.from(Array(9).keys());
 
 const availableSquares = () => {
   return origBoard.filter(s => s != 'O' && s != 'X');
@@ -333,7 +323,7 @@ const winCheck = (mark) => {
   }
 }
 
-const analyzeGame = (board, mark) => {
+const analyzeBoard = (board, mark) => {
   if (
     (board[0] == mark && board[1] == mark && board[2] == mark) ||
     (board[3] == mark && board[4] == mark && board[5] == mark) ||
@@ -354,9 +344,9 @@ const analyzeGame = (board, mark) => {
 function joshua(board, player) {
   var availSpots = availableSquares();
 
-  if (analyzeGame(board, player1Marker)) {
+  if (analyzeBoard(board, player1Marker)) {
     return {score: -10};
-  } else if (analyzeGame(board, player2Marker)) {
+  } else if (analyzeBoard(board, player2Marker)) {
     return {score: 10};
   } else if (availSpots.length === 0) {
     return {score: 0};
