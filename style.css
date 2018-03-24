@@ -60,7 +60,8 @@ body, html {
   border-radius: 15px;
   box-shadow: 1px 1px 35px 0px rgba(0,0,0,0.85);
   background-color: #F6B382;
-  box-shadow: inset -1px -3px 27px 4px rgba(0,0,0,0.55);
+  box-shadow: inset -1px -3px 20px 4px rgba(0,0,0,0.55),
+  3px 7px 8px 4px rgba(0,0,0,0.75);
   background-image: -o-linear-gradient(left, #000, transparent);
   grid-auto-rows: 20px;
   display: grid;
@@ -79,6 +80,7 @@ body, html {
 }
 
 #game-reset {
+  text-transform: capitalize;
   justify-self: end;
 }
 
