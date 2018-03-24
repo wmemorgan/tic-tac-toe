@@ -50,7 +50,7 @@ const chooseOption1 = () => {
     showBoard(square);
     if(playerCount === 1) {
       player1Start();
-    } else {
+    } else if (playerCount === 2) {
       choosePlayer();
     }
   } else {
@@ -72,7 +72,7 @@ const chooseOption2 = () => {
     console.log("Player 2 is:", player2Marker);
     if (playerCount === 1) {
       player1Start();
-    } else {
+    } else if (playerCount === 2) {
       choosePlayer();
     }
     showBoard(square);
@@ -146,18 +146,10 @@ const resetScore = () => {
 const showBoard = () => {
   gameMenu.style.display = "none";
   toggleScoreboard('visible');
-  // if(playerCount === 1) {
-  //   player2.innerHTML = "computer";
-  //   for (let i = 0; i < square.length; i++) {
-  //     square[i].classList.remove("square-hidden");
-  //     square[i].addEventListener("click", playerMarkerAI(i));
-  //   }
-  // } else {
-    for (let i = 0; i < square.length; i++) {
-      square[i].classList.remove("square-hidden");
-      square[i].addEventListener("click", playerMarker(i));
-    }
-  // }  
+  for (let i = 0; i < square.length; i++) {
+    square[i].classList.remove("square-hidden");
+    square[i].addEventListener("click", playerMarker(i));
+  }
 }
 
 const hideBoard = () => {
