@@ -83,9 +83,7 @@ const chooseOption2 = () => {
     backButton.style.visibility = 'visible';
     gameMenu2 = true;
     playerCount = 2;
-    
   }
-
 }
 
 const selectSquare = (squareIndex, player) => {
@@ -95,33 +93,27 @@ const selectSquare = (squareIndex, player) => {
   winCheck(player);
 }
 
-const playerMarkerAI = (index) => {
+const playerMarker = (index) => {
   return () => {
-    if (typeof origBoard[index] === 'number' && !winCheck(player1Marker)) {
-      selectSquare(index, player1Marker);
-      console.log("Player 1 selects:", index);
-      if (typeof origBoard[bestSpot()] === 'number' && !winCheck(player2Marker)) {
-        let compIndex = bestSpot();
-        selectSquare(compIndex, player2Marker);
-        console.log("Computer selects:", compIndex);
+    if (playerCount === 1) {
+      if (typeof origBoard[index] === 'number' && !winCheck(player1Marker)) {
+        selectSquare(index, player1Marker);
+        console.log("Player 1 selects:", index);
+        if (typeof origBoard[bestSpot()] === 'number' && !winCheck(player2Marker)) {
+          let compIndex = bestSpot();
+          selectSquare(compIndex, player2Marker);
+          console.log("Computer selects:", compIndex);
+        }
       }
-    }
-    // rotatePlayer();
-  }
-}
-
-const playerMarker = (i) => {
-  return () => {
-    if (square[i].hasChildNodes()) {
-      console.log('The square has been already been selected.');
-      return false;
-    } else {
-    // square[i].innerHTML = activeMarker;
-    // markerCount++;
-    // winCheck(activeMarker);
-    selectSquare(i, activeMarker);
-    }
-  }
+    } else if (playerCount === 2) {
+        if (square[index].hasChildNodes()) {
+          console.log('The square has been already been selected.');
+          return false;
+        } else {
+          selectSquare(index, activeMarker);
+        }
+      }
+    } 
 }
 
 const resetGame = () => {
@@ -154,18 +146,18 @@ const resetScore = () => {
 const showBoard = () => {
   gameMenu.style.display = "none";
   toggleScoreboard('visible');
-  if(playerCount === 1) {
-    player2.innerHTML = "computer";
-    for (let i = 0; i < square.length; i++) {
-      square[i].classList.remove("square-hidden");
-      square[i].addEventListener("click", playerMarkerAI(i));
-    }
-  } else {
+  // if(playerCount === 1) {
+  //   player2.innerHTML = "computer";
+  //   for (let i = 0; i < square.length; i++) {
+  //     square[i].classList.remove("square-hidden");
+  //     square[i].addEventListener("click", playerMarkerAI(i));
+  //   }
+  // } else {
     for (let i = 0; i < square.length; i++) {
       square[i].classList.remove("square-hidden");
       square[i].addEventListener("click", playerMarker(i));
     }
-  }  
+  // }  
 }
 
 const hideBoard = () => {
