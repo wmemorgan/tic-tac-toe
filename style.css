@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Caveat');
 body, html {
   min-width: 550px;
   height: 100%;
@@ -5,6 +6,7 @@ body, html {
 }
 
 .container {
+  font-family: "Comic Sans MS", cursive, sans-serif;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -19,6 +21,8 @@ body, html {
 }
 
 #player-label {
+  text-transform: capitalize; 
+  font-family: Arial, Helvetica, sans-serif; 
   font-size: 1.5em;
   grid-column: 1 / 1;
   display: grid;
@@ -30,7 +34,6 @@ body, html {
 #go-player-1, #go-player-2 {
   padding: 5px;
   text-align: center;
-  /* border: 1px solid red; */
 }
 
 #go-player-1 {
@@ -54,9 +57,11 @@ body, html {
   padding-left: 16.375px;
   padding-right: 0.1875px;
   padding-bottom: 10px;
-  border: 1px solid black;
   border-radius: 15px;
+  box-shadow: 1px 1px 35px 0px rgba(0,0,0,0.85);
   background-color: #F6B382;
+  box-shadow: inset -1px -3px 27px 4px rgba(0,0,0,0.55);
+  background-image: -o-linear-gradient(left, #000, transparent);
   grid-auto-rows: 20px;
   display: grid;
   grid-template-columns: repeat(3, 100px);
@@ -71,25 +76,14 @@ body, html {
   grid-auto-rows: auto;
   visibility: hidden;
   text-align: right;
-  /* border: 1px solid black; */
-  
 }
-
-/* #player-1 {
-  text-align: right;
-}
-
-#player-2 {
-  text-align: left;
-} */
 
 #game-reset {
   justify-self: end;
-  border: 1px solid white;
 }
 
 #game-reset:hover {
-  padding: 2px;
+  padding: auto;
   border: 2px dashed #875D4D;
   border-radius: 25px;
   cursor: pointer; 
@@ -108,11 +102,11 @@ body, html {
   transform: translate(-50%, -50%);  */
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, auto);
 }
 
 #question {
-  width: 200px;
+  width: 250px;
   color: white;
   font-size: 2em;
   grid-column: 1 / -1;
@@ -120,9 +114,11 @@ body, html {
 }
 
 .option {
-  padding-top: 50px;
-  border: 1px solid white;
-  font-size: 1.5em;
+  text-transform: capitalize;
+  font-family: Arial, Helvetica, sans-serif;
+  /* padding-top: 20px; */
+  font-size: 1.7em;
+  /* border: 1px solid white; */
 }
 
 #option-1:hover, #option-2:hover {
@@ -135,6 +131,11 @@ body, html {
   grid-column: 1 / -1;
   visibility: hidden;
 }
+
+#back-btn:hover {
+ color: white;
+ cursor: pointer;
+} 
 
 #board {
   /* margin: auto; */
@@ -178,11 +179,12 @@ body, html {
 #game-results {
   grid-column: 1 / span 2;
   font-size: 2em;
-  border: 2px solid white;
 }
 
 .game-end-options {
-  border: 1px solid white;
+  text-transform: capitalize;
+  font-family: Arial, Helvetica, sans-serif;
+  
 }
 
 
