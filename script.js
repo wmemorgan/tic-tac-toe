@@ -325,11 +325,11 @@ const winCheck = (mark) => {
 }
 
 function minimax(newBoard, player) {
-  var availSpots = emptySquares();
+  var availSpots = availableSquares();
 
-  if (checkWin(newBoard, huPlayer)) {
+  if (checkWin(newBoard, player1Marker)) {
     return { score: -10 };
-  } else if (checkWin(newBoard, aiPlayer)) {
+  } else if (checkWin(newBoard, player2Marker)) {
     return { score: 10 };
   } else if (availSpots.length === 0) {
     return { score: 0 };
@@ -340,8 +340,8 @@ function minimax(newBoard, player) {
     move.index = newBoard[availSpots[i]];
     newBoard[availSpots[i]] = player;
 
-    if (player == aiPlayer) {
-      var result = minimax(newBoard, huPlayer);
+    if (player == player2Marker) {
+      var result = minimax(newBoard, player1Marker);
       move.score = result.score;
     } else {
       var result = minimax(newBoard, aiPlayer);
